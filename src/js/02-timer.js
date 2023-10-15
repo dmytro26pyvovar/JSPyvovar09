@@ -42,17 +42,20 @@ function addLeadingZero(value) {
   return value < 10 ? `0${value}` : value;
 };
 
-if (selectedDates <= new Date()) {
+let selectedDate = new Date(datetimePicker.value).getTime();
+let countdownInterval; 
+
+if (selectedDate <= new Date()) {
     Notiflix.Notify.warning('Будь ласка виберіть дату');
     startButton.disabled = true;
 } else {
     startButton.disabled = false;
-};
+}
 
 flatpickr(datetimePicker, options);
 
 startButton.addEventListener('click', () => {
-     const selectedDate = new Date(datetimePicker.value).getTime();
+    selectedDate = new Date(datetimePicker.value).getTime();
   const currentDate = new Date().getTime();
     const timeRemaining = selectedDate - currentDate;
     if (timeRemaining <= 0) {
@@ -66,7 +69,6 @@ startButton.addEventListener('click', () => {
     document.querySelector('[data-hours]').textContent = addLeadingZero(time.hours);
     document.querySelector('[data-minutes]').textContent = addLeadingZero(time.minutes);
         document.querySelector('[data-seconds]').textContent = addLeadingZero(time.seconds);
-        timeRemaining -= 1000;
          if (timeRemaining <= 0) {
       clearInterval(countdownInterval);
       Notiflix.Notify.success('Відлік завершено');
