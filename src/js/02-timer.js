@@ -55,21 +55,22 @@ if (selectedDate <= new Date()) {
 flatpickr(datetimePicker, options);
 
 startButton.addEventListener('click', () => {
-    selectedDate = new Date(datetimePicker.value).getTime();
+  selectedDate = new Date(datetimePicker.value).getTime();
   const currentDate = new Date().getTime();
-    const timeRemaining = selectedDate - currentDate;
-    if (timeRemaining <= 0) {
+  let timeRemaining = selectedDate - currentDate;
+  if (timeRemaining <= 0) {
     Notiflix.Notify.warning('Будь ласка виберіть дату');
     return;
-    }
-    startButton.disabled = true;
-    countdownInterval = setInterval(() => {
-        const time = convertMs(timeRemaining);
-         document.querySelector('[data-days]').textContent = addLeadingZero(time.days);
+  }
+  startButton.disabled = true;
+  countdownInterval = setInterval(() => {
+    timeRemaining -= 1000; 
+    const time = convertMs(timeRemaining);
+    document.querySelector('[data-days]').textContent = addLeadingZero(time.days);
     document.querySelector('[data-hours]').textContent = addLeadingZero(time.hours);
     document.querySelector('[data-minutes]').textContent = addLeadingZero(time.minutes);
-        document.querySelector('[data-seconds]').textContent = addLeadingZero(time.seconds);
-         if (timeRemaining <= 0) {
+    document.querySelector('[data-seconds]').textContent = addLeadingZero(time.seconds);
+    if (timeRemaining <= 0) {
       clearInterval(countdownInterval);
       Notiflix.Notify.success('Відлік завершено');
       startButton.disabled = false;
