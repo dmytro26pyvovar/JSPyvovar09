@@ -64,16 +64,22 @@ startButton.addEventListener('click', () => {
   }
   startButton.disabled = true;
   countdownInterval = setInterval(() => {
-    timeRemaining -= 1000; 
     const time = convertMs(timeRemaining);
     document.querySelector('[data-days]').textContent = addLeadingZero(time.days);
     document.querySelector('[data-hours]').textContent = addLeadingZero(time.hours);
     document.querySelector('[data-minutes]').textContent = addLeadingZero(time.minutes);
     document.querySelector('[data-seconds]').textContent = addLeadingZero(time.seconds);
+    
     if (timeRemaining <= 0) {
       clearInterval(countdownInterval);
       Notiflix.Notify.success('Відлік завершено');
       startButton.disabled = false;
+      document.querySelector('[data-days]').textContent = '00';
+      document.querySelector('[data-hours]').textContent = '00';
+      document.querySelector('[data-minutes]').textContent = '00';
+      document.querySelector('[data-seconds]').textContent = '00';
+    } else {
+      timeRemaining -= 1000;
     }
   }, 1000);
 });
